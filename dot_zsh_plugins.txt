@@ -1,0 +1,11 @@
+mattmc3/ez-compinit
+
+romkatv/powerlevel10k kind:fpath
+
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-syntax-highlighting
+zsh-users/zsh-history-substring-search
+MichaelAquilina/zsh-you-should-use
+ohmyzsh/ohmyzsh path:plugins/common-aliases
+ohmyzsh/ohmyzsh path:plugins/tmux
+z-shell/zsh-eza
