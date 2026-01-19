@@ -26,7 +26,7 @@ alias nproc="sysctl -n hw.physicalcpu"
 alias rdocker='docker run --rm -it --platform=linux/amd64 -v $PWD:$PWD -w $PWD'
 
 # Fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
   --highlight-line \
@@ -76,8 +76,6 @@ _fzf_compgen_dir() {
 eval "$(zoxide init zsh)"
 alias cd="z"
 
-. "$HOME/.cargo/env"
-
 export SVD_FOLDER="$HOME/git/work/cmsis-svd/data/"
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
 export XDG_CONFIG_HOME="$HOME/.config/"
@@ -89,3 +87,4 @@ export PATH="/opt/homebrew/opt/binutils/bin:$PATH"
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(mise activate zsh)"

@@ -2,10 +2,6 @@
   path = ~/workspace/perso/.gitconfig.perso
 [includeIf "gitdir:~/workspace/work/"]
   path = ~/workspace/work/.gitconfig.work
-[includeIf "gitdir:~/git/perso/"]
-  path = ~/git/perso/.gitconfig.perso
-[includeIf "gitdir:~/git/work/"]
-  path = ~/git/work/.gitconfig.work
 [color]
   ui = auto
 [alias]

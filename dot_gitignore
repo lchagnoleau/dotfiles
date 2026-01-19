@@ -11,3 +11,4 @@ tmp/
 .gdb/
 .cache/
 compile_commands.json
+.mise.toml
