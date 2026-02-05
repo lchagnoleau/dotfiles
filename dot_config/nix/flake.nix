@@ -35,7 +35,9 @@
           pkgs.chezmoi
           pkgs.firefox
           pkgs.ghostty-bin
+          pkgs.bitwarden-cli
           pkgs.ripgrep
+          pkgs.podman
           pkgs.fzf
           pkgs.fd
         ];
@@ -43,12 +45,9 @@
       homebrew = {
         enable = true;
           casks = [
-            "the-unarchiver"
-            "iina"
             "rectangle"
             "hyperkey"
             "maccy"
-            # "wireguard"
             "parallels"
             "microsoft-office"
             "microsoft-teams"
@@ -58,9 +57,9 @@
             "mas"
             "mise"
             "age"
+            "fnox"
           ];
           masApps = {
-            # "Xcode" = 497799835;
             "WireGuard" = 1451685025;
           };
         onActivation.cleanup = "zap";

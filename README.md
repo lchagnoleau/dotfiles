@@ -13,6 +13,10 @@ curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply lchagnoleau
 # In a new shell:
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#BigMac
+mise install
+mise plugin install fnox-env https://github.com/jdx/mise-env-fnox
+podman machine init
+podman machine start
 ```
 
 ## Ugrade Nix pacakages
