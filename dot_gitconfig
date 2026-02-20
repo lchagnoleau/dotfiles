@@ -1,7 +1,7 @@
-[includeIf "gitdir:~/workspace/perso/"]
-  path = ~/workspace/perso/.gitconfig.perso
-[includeIf "gitdir:~/workspace/work/"]
-  path = ~/workspace/work/.gitconfig.work
+[includeIf "gitdir:~/wp/perso/"]
+  path = ~/wp/perso/.gitconfig.perso
+[includeIf "gitdir:~/wp/work/"]
+  path = ~/wp/work/.gitconfig.work
 [color]
   ui = auto
 [alias]

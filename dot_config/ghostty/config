@@ -1,7 +1,7 @@
 theme = TokyoNight Storm
 
 window-padding-x = 4,4
-scrollback-limit = 125000
+scrollback-limit = 1250000
 confirm-close-surface = false
 maximize = true
 

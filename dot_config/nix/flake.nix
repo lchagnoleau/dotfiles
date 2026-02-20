@@ -21,12 +21,14 @@
     configuration = { pkgs, ... }: {
       system.primaryUser = "lchagnoleau";
       nixpkgs.config.allowUnfree = true;
+      nixpkgs.config.segger-jlink.acceptLicense = true;
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
         [ pkgs.neovim
           pkgs.tmux
           pkgs.git
+          pkgs.drawio
           pkgs.delta
           pkgs.eza
           pkgs.zoxide
@@ -40,6 +42,7 @@
           pkgs.podman
           pkgs.fzf
           pkgs.fd
+          pkgs.segger-jlink
         ];
 
       homebrew = {
@@ -48,11 +51,14 @@
             "rectangle"
             "hyperkey"
             "maccy"
+            "calibre"
             "parallels"
             "microsoft-office"
             "microsoft-teams"
+            "autodesk-fusion"
           ];
           brews = [
+            "gdb"
             "mole"
             "mas"
             "mise"

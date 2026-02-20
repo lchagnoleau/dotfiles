@@ -76,7 +76,7 @@ _fzf_compgen_dir() {
 eval "$(zoxide init zsh)"
 alias cd="z"
 
-export SVD_FOLDER="$HOME/git/work/cmsis-svd/data/"
+export SVD_FOLDER="$HOME/workspace/work/cmsis-svd/data/"
 export EZA_CONFIG_DIR="$HOME/.config/eza/"
 export XDG_CONFIG_HOME="$HOME/.config/"
 export EDITOR="nvim"
