@@ -28,9 +28,11 @@
         [ pkgs.neovim
           pkgs.tmux
           pkgs.git
+          pkgs.tldr
           pkgs.drawio
           pkgs.delta
           pkgs.eza
+          pkgs.bat
           pkgs.zoxide
           pkgs.jujutsu
           pkgs.lazygit
@@ -64,6 +66,7 @@
             "mise"
             "age"
             "fnox"
+            "thefuck"
           ];
           masApps = {
             "WireGuard" = 1451685025;

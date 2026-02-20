@@ -12,3 +12,4 @@ font-thicken = true
 font-codepoint-map = U+E000-U+F1AF0=Hack Nerd Font
 mouse-scroll-multiplier = 0.5
 mouse-hide-while-typing = true
+macos-option-as-alt = true
