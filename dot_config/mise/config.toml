@@ -3,3 +3,8 @@ fnox-env = "https://github.com/jdx/mise-env-fnox"
 
 [env]
 _.fnox-env = { tools = true }
+
+[tools]
+rust = "latest"
+terraform = "latest"
+uv = "latest"

@@ -28,6 +28,7 @@
         [ pkgs.neovim
           pkgs.tmux
           pkgs.git
+          pkgs.git-lfs
           pkgs.tldr
           pkgs.drawio
           pkgs.delta
@@ -45,6 +46,9 @@
           pkgs.fzf
           pkgs.fd
           pkgs.segger-jlink
+          pkgs.himalaya
+          pkgs.claude-code
+          pkgs.imagemagick_light
         ];
 
       homebrew = {
@@ -53,6 +57,7 @@
             "rectangle"
             "hyperkey"
             "maccy"
+            "slack"
             "calibre"
             "parallels"
             "microsoft-office"

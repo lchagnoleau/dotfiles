@@ -71,8 +71,15 @@
   prereleaseSuffix = .rc
 [user]
   name = Loïc Chagnoleau
+	signingKey = /Users/lchagnoleau/.ssh/git_gitlab.pub
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = /Users/lchagnoleau/.ssh/allowed_signers
+[commit]
+	gpgsign = true

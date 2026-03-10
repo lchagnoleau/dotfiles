@@ -25,8 +25,9 @@ export eza_params=(--icons --group --group-directories-first --time-style=long-i
 alias l='eza --all --header --long $eza_params'
 alias v='nvim'
 alias g='git'
-alias nproc="sysctl -n hw.physicalcpu"
-alias cd="z"
+alias nproc='sysctl -n hw.physicalcpu'
+alias cd='z'
+alias rpodman='podman run -it --rm --arch x86_64 -v $PWD:$PWD -v $HOME/.ssh:/root/.ssh -w $PWD'
 
 # ── FZF ───────────────────────────────────────────────────────────────────────
 source <(fzf --zsh)
