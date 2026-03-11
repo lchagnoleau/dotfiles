@@ -5,6 +5,7 @@ fnox-env = "https://github.com/jdx/mise-env-fnox"
 _.fnox-env = { tools = true }
 
 [tools]
+fnox = "latest"
 rust = "latest"
 terraform = "latest"
 uv = "latest"

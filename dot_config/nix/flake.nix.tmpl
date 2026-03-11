@@ -1,8 +1,9 @@
 {
-  description = "BigMac nix-darwin system flake";
+  description = "Nix system flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    {{- if eq .chezmoi.os "darwin" }}
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -14,23 +15,49 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    {{- else if eq .chezmoi.os "linux" }}
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    {{- end }}
   };
 
+  {{- if eq .chezmoi.os "darwin" }}
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, ... }:
+  {{- else if eq .chezmoi.os "linux" }}
+  outputs = inputs@{ self, home-manager, nixgl, nixpkgs, ... }:
+  {{- end }}
   let
-    configuration = { pkgs, ... }: {
-      system.primaryUser = "lchagnoleau";
-      nixpkgs.config.allowUnfree = true;
+    configuration = { pkgs, lib, ... }: {
+      {{- if eq .chezmoi.os "darwin" }}
+      system.primaryUser = "{{ .chezmoi.username }}";
       nixpkgs.config.segger-jlink.acceptLicense = true;
+      {{- else if eq .chezmoi.os "linux" }}
+      home.username = "{{ .chezmoi.username }}";
+      home.homeDirectory = "{{ .chezmoi.homeDir }}";
+      home.stateVersion = "25.11";
+      {{- end }}
+      nixpkgs.config.allowUnfree = true;
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
+      {{- if eq .chezmoi.os "darwin" }}
       environment.systemPackages =
+      {{- else if eq .chezmoi.os "linux" }}
+      home.packages =
+      {{- end }}
         [ pkgs.neovim
+          pkgs.pay-respects
+          pkgs.mise
+          pkgs.age
           pkgs.tmux
           pkgs.git
           pkgs.git-lfs
           pkgs.tldr
-          pkgs.drawio
           pkgs.delta
           pkgs.eza
           pkgs.bat
@@ -38,17 +65,31 @@
           pkgs.jujutsu
           pkgs.lazygit
           pkgs.chezmoi
-          pkgs.firefox
-          pkgs.ghostty-bin
           pkgs.bitwarden-cli
           pkgs.ripgrep
           pkgs.podman
           pkgs.fzf
           pkgs.fd
-          pkgs.segger-jlink
           pkgs.himalaya
           pkgs.claude-code
           pkgs.imagemagick_light
+          pkgs.drawio
+          {{- if eq .chezmoi.os "darwin" }}
+          pkgs.ghostty-bin
+          pkgs.firefox
+          pkgs.segger-jlink
+          {{- else if eq .chezmoi.os "linux" }}
+          pkgs.ghostty
+          pkgs.nerd-fonts.hack
+          pkgs.zsh
+          pkgs.gdb
+          {{- end }}
+        ];
+
+      {{- if eq .chezmoi.os "darwin" }}
+      fonts.packages =
+        with pkgs; [
+        nerd-fonts.hack
         ];
 
       homebrew = {
@@ -65,13 +106,10 @@
             "autodesk-fusion"
           ];
           brews = [
+            "libusb"
             "gdb"
             "mole"
             "mas"
-            "mise"
-            "age"
-            "fnox"
-            "thefuck"
           ];
           masApps = {
             "WireGuard" = 1451685025;
@@ -81,16 +119,13 @@
         onActivation.upgrade = true;
         };
 
-      fonts.packages =
-        with pkgs; [
-          nerd-fonts.hack
-        ];
+      # The platform the configuration will be used on.
+      {{- $arch := .chezmoi.arch }}
+      {{- if eq $arch "arm64" }}{{ $arch = "aarch64" }}{{ end }}
+      nixpkgs.hostPlatform = "{{ $arch }}-{{ .chezmoi.os }}";
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
-
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -98,9 +133,6 @@
       # Used for backwards compatibility, please read the changelog before changing.
       # $ darwin-rebuild changelog
       system.stateVersion = 6;
-
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
 
       # MacOs settings
       system.defaults = {
@@ -140,12 +172,37 @@
         NSGlobalDomain."com.apple.sound.beep.feedback" = 0;
         NSGlobalDomain."com.apple.trackpad.scaling" = 2.5;
       };
+      {{- else if eq .chezmoi.os "linux" }}
+      fonts.fontconfig.enable = true;
+
+      dconf.settings = {
+        "org/gnome/shell/extensions/dash-to-dock" = {
+          dock-position    = "BOTTOM";
+          dock-fixed       = false;
+          extend-height    = false;
+          autohide         = true;
+          autohide-in-fullscreen = true;
+          intellihide      = true;
+          require-pressure-to-show = false;
+          show-delay       = (lib.hm.gvariant.mkDouble 0.0);
+          animation-time   = (lib.hm.gvariant.mkDouble 0.1);
+          dash-max-icon-size = 48;
+          show-mounts      = false;
+          show-trash       = false;
+          show-show-apps-button = true;
+          click-action     = "minimize";
+          scroll-to-focused-application = true;
+          running-indicator-style = "DOTS";
+        };
+      };
+
+      programs.home-manager.enable = true;
+      {{- end }}
     };
   in
   {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
-    darwinConfigurations."BigMac" = nix-darwin.lib.darwinSystem {
+    {{- if eq .chezmoi.os "darwin" }}
+    darwinConfigurations."{{ .chezmoi.hostname }}" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
         nix-homebrew.darwinModules.nix-homebrew
@@ -158,7 +215,7 @@
             enableRosetta = true;
 
             # User owning the Homebrew prefix
-            user = "lchagnoleau";
+            user = "{{ .chezmoi.username }}";
 
             # Automatically migrate existing Homebrew installations
             autoMigrate = true;
@@ -166,5 +223,16 @@
         }
       ];
     };
+    {{- else if eq .chezmoi.os "linux" }}
+    homeConfigurations."{{ .chezmoi.hostname }}" = home-manager.lib.homeManagerConfiguration {
+      pkgs = import nixpkgs {
+        {{- $arch := .chezmoi.arch -}}
+        {{- if eq $arch "arm64" }}{{- $arch = "aarch64" -}}{{ end -}}
+        localSystem = "{{ $arch }}-{{ .chezmoi.os }}";
+        overlays = [ nixgl.overlay ];
+      };
+      modules = [ configuration ];
+    };
+    {{- end }}
   };
 }

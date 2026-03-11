@@ -1,0 +1,8 @@
+#!/bin/bash
+# flake.nix hash: {{ include "dot_config/nix/flake.nix.tmpl" | sha256sum }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#{{ .chezmoi.hostname }}
+{{ else if eq .chezmoi.os "linux" -}}
+nix run home-manager/master -- switch --flake ~/.config/nix#{{ .chezmoi.hostname }}
+{{ end -}}
