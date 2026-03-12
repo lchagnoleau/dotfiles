@@ -2,6 +2,12 @@
   path = ~/wp/perso/.gitconfig.perso
 [includeIf "gitdir:~/wp/work/"]
   path = ~/wp/work/.gitconfig.work
+[user]
+  name = Loïc Chagnoleau
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
 [color]
   ui = auto
 [alias]
@@ -69,17 +75,8 @@
   prereleaseSuffix = .beta
   prereleaseSuffix = -rc
   prereleaseSuffix = .rc
-[user]
-  name = Loïc Chagnoleau
-	signingKey = /Users/lchagnoleau/.ssh/git_gitlab.pub
 [filter "lfs"]
   required = true
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
-[gpg]
-	format = ssh
-[gpg "ssh"]
-	allowedSignersFile = /Users/lchagnoleau/.ssh/allowed_signers
-[commit]
-	gpgsign = true
