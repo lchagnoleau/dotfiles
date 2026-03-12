@@ -10,6 +10,11 @@ type = "git-repo"
 url = "https://github.com/tmux-plugins/tpm"
 refreshPeriod = "168h"
 
+[".config/eza/themes"]
+type = "git-repo"
+url = "https://github.com/eza-community/eza-themes"
+refreshPeriod = "168h"
+
 [".config/nvim"]
 type = "git-repo"
 url = "https://github.com/lchagnoleau/nvim"

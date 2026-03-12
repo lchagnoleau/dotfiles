@@ -1,0 +1,4 @@
+export XDG_CONFIG_HOME="$HOME/.config/"
+export SVD_FOLDER="$HOME/wp/work/cmsis-svd/data/"
+export EZA_CONFIG_DIR="$HOME/.config/eza/"
+export EDITOR="nvim"
