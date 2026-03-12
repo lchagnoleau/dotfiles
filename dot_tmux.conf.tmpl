@@ -1,6 +1,12 @@
 unbind r
 bind r source-file ~/.tmux.conf
 
+{{- if eq .chezmoi.os "linux" }}
+# Clipboard integration (Wayland/GNOME)
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
+bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "wl-copy"
+{{- end }}
+
 # Colors setuo
 set -g default-terminal "screen-256color"
 set -ag terminal-overrides ",xterm-256color:RGB"

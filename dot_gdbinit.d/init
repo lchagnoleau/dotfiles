@@ -3,7 +3,5 @@
 dashboard -layout assembly breakpoints expressions history memory registers svd source stack threads variables
 dashboard source -style height 30
 
-dashboard svd load ARM CortexM33.svd
-
 set history save on
 set history filename ~/.gdb_history

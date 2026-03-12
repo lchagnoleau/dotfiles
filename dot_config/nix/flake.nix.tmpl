@@ -33,7 +33,45 @@
   outputs = inputs@{ self, home-manager, nixgl, nixpkgs, ... }:
   {{- end }}
   let
-    configuration = { pkgs, lib, ... }: {
+    {{- if eq .chezmoi.os "linux" }}
+    # --- cmsis-svd Python package (not in nixpkgs) ---------------------------
+    # To get the hash, run:
+    #   nix-prefetch-url https://files.pythonhosted.org/packages/source/c/cmsis-svd/cmsis_svd-0.6.tar.gz
+    # then convert: nix hash to-sri --type sha256 <output>
+    mkGdbWithSvd = pkgs:
+      let
+        cmsis-svd = pkgs.python3Packages.buildPythonPackage rec {
+          pname = "cmsis_svd";
+          version = "0.6";
+          pyproject = true;
+          src = pkgs.python3Packages.fetchPypi {
+            inherit pname version;
+            sha256 = "sha256-cMxYMG+AH5mlrWtJqLO06cyn0GsK7XcIH6zWmoQGRoY=";
+          };
+          build-system = [ pkgs.python3Packages.setuptools ];
+          dependencies = [ pkgs.python3Packages.six pkgs.python3Packages.setuptools pkgs.python3Packages.lxml ];
+          doCheck = false;
+        };
+        pythonWithCmsis = pkgs.python3.withPackages (_: [ cmsis-svd ]);
+      in
+      pkgs.symlinkJoin {
+        name = "gdb-with-svd";
+        paths = [ pkgs.gdb ];
+        buildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/gdb \
+            --set PYTHONPATH "${pythonWithCmsis}/${pkgs.python3.sitePackages}"
+        '';
+      };
+    {{- end }}
+
+    configuration = { pkgs, lib, ... }:
+    {{- if eq .chezmoi.os "linux" }}
+    let
+      gdbWithSvd = mkGdbWithSvd pkgs;
+    in
+    {{- end }}
+    {
       {{- if eq .chezmoi.os "darwin" }}
       system.primaryUser = "{{ .chezmoi.username }}";
       nixpkgs.config.segger-jlink.acceptLicense = true;
@@ -43,8 +81,6 @@
       home.stateVersion = "25.11";
       {{- end }}
       nixpkgs.config.allowUnfree = true;
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
       {{- if eq .chezmoi.os "darwin" }}
       environment.systemPackages =
       {{- else if eq .chezmoi.os "linux" }}
@@ -79,10 +115,11 @@
           pkgs.firefox
           pkgs.segger-jlink
           {{- else if eq .chezmoi.os "linux" }}
+          pkgs.wl-clipboard
           pkgs.ghostty
           pkgs.nerd-fonts.hack
           pkgs.zsh
-          pkgs.gdb
+          gdbWithSvd  # gdb wrapped with cmsis-svd Python module
           {{- end }}
         ];
 
@@ -194,6 +231,61 @@
           scroll-to-focused-application = true;
           running-indicator-style = "DOTS";
         };
+        "org/gnome/desktop/interface" = {
+          color-scheme     = "prefer-dark";  # Dark mode
+          gtk-theme        = "Yaru-dark";
+          icon-theme       = "Yaru";
+          clock-show-weekday = true;
+          show-battery-percentage = true;
+          enable-animations = true;
+          font-antialiasing = "rgba";
+        };
+        "org/gnome/desktop/peripherals/keyboard" = {
+          repeat          = true;
+          repeat-interval = 1;    # ms between repeats
+          delay           = 100;  # ms before repeat starts
+        };
+        "org/gnome/desktop/peripherals/touchpad" = {
+          tap-to-click    = true;
+          natural-scroll  = false;
+          speed           = 0.5;
+          two-finger-scrolling-enabled = true;
+        };
+        "org/gnome/desktop/peripherals/mouse" = {
+          natural-scroll  = false;
+          accel-profile   = "default";
+        };
+        "org/gnome/desktop/screensaver" = {
+          lock-enabled    = true;
+          lock-delay      = 0;
+        };
+        "org/gnome/desktop/session" = {
+          idle-delay      = 300;
+        };
+        "org/gnome/nautilus/preferences" = {
+          default-folder-viewer = "list-view";
+          show-hidden-files     = false;
+        };
+        "org/gnome/nautilus/list-view" = {
+          use-tree-view = true;
+        };
+        "org/gnome/desktop/privacy" = {
+          report-technical-problems = false;
+        };
+        "org/gnome/desktop/sound" = {
+          event-sounds    = false;
+        };
+        "org/gnome/mutter" = {
+          edge-tiling     = true;
+          dynamic-workspaces = true;
+        };
+        "org/gnome/desktop/wm/preferences" = {
+          button-layout   = "appmenu:minimize,maximize,close";
+          num-workspaces  = 4;
+        };
+        "org/gnome/gnome-screenshot" = {
+          auto-save-directory = "file://{{ .chezmoi.homeDir }}/Screenshots";
+        };
       };
 
       programs.home-manager.enable = true;
@@ -208,16 +300,9 @@
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {
-            # Install Homebrew under the default prefix
             enable = true;
-
-            # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
             enableRosetta = true;
-
-            # User owning the Homebrew prefix
             user = "{{ .chezmoi.username }}";
-
-            # Automatically migrate existing Homebrew installations
             autoMigrate = true;
           };
         }
