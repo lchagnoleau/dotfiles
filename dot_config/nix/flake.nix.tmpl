@@ -112,10 +112,19 @@
           pkgs.claude-code
           pkgs.imagemagick_light
           pkgs.drawio
+          pkgs.ouch
+          pkgs.yazi
+          pkgs.dust
+          pkgs.sd
+          pkgs.hyperfine
+          pkgs.bottom
+          pkgs.procs
+          pkgs.grex
           {{- if eq .chezmoi.os "darwin" }}
           pkgs.ghostty-bin
           pkgs.firefox
           pkgs.segger-jlink
+          pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
           pkgs.wl-clipboard
           pkgs.ghostty
@@ -148,11 +157,7 @@
             "libusb"
             "gdb"
             "mole"
-            "mas"
           ];
-          masApps = {
-            "WireGuard" = 1451685025;
-          };
         onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
         onActivation.upgrade = true;
