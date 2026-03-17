@@ -1,7 +1,5 @@
 mattmc3/ez-compinit
 
-romkatv/powerlevel10k kind:fpath
-
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-syntax-highlighting
 zsh-users/zsh-history-substring-search
