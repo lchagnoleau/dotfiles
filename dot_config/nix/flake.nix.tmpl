@@ -87,6 +87,7 @@
       home.packages =
       {{- end }}
         [ pkgs.neovim
+          pkgs.bat
           pkgs.starship
           pkgs.atuin
           pkgs.pay-respects
@@ -127,6 +128,7 @@
           pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
+          pkgs.fosrl-pangolin
           pkgs.wl-clipboard
           pkgs.ghostty
           pkgs.nerd-fonts.hack
