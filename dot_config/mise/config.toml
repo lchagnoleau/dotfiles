@@ -7,7 +7,6 @@ _.fnox-env = { tools = true }
 [tools]
 fnox = "latest"
 "github:xpack-dev-tools/arm-none-eabi-gcc-xpack" = "14.2.1-1.1"
-"gitlab:qorvo/tools/packages/memscout" = "latest"
 rust = "latest"
 terraform = "latest"
 uv = "latest"
