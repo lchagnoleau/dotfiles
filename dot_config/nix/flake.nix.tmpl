@@ -112,7 +112,6 @@
           pkgs.lazygit
           pkgs.chezmoi
           pkgs.bitwarden-cli
-          pkgs.bitwarden-desktop
           pkgs.ripgrep
           pkgs.podman
           pkgs.fzf
@@ -130,12 +129,13 @@
           pkgs.grex
           {{- if eq .chezmoi.os "darwin" }}
           pkgs.ghostty-bin
+          pkgs.bitwarden-desktop
           pkgs.firefox
           pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
+          pkgs.gcc
           pkgs.wl-clipboard
-          pkgs.ghostty
           pkgs.nerd-fonts.hack
           pkgs.zsh
           gdbWithSvd  # gdb wrapped with cmsis-svd Python module
