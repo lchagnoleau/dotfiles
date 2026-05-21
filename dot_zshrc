@@ -44,6 +44,9 @@ eval "$(zoxide init zsh)"
 # ── Mise ──────────────────────────────────────────────────────────────────────
 eval "$(mise activate zsh)"
 
+# ── Fnox ──────────────────────────────────────────────────────────────────────
+eval "$(fnox activate zsh)"
+
 # ── Jujutsu (jj) completion ───────────────────────────────────────────────────
 source <(COMPLETE=zsh jj)
 
@@ -51,4 +54,4 @@ source <(COMPLETE=zsh jj)
 eval "$(pay-respects zsh --alias)"
 
 # ── atuin ─────────────────────────────────────────────────────────────────────
-eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(atuin init zsh)"
