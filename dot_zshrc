@@ -9,6 +9,7 @@ setopt hist_reduce_blanks
 zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
 source $HOME/.antidote/antidote.zsh
 antidote load
+fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
 # ── Key Bindings ──────────────────────────────────────────────────────────────
 bindkey '^[[A' history-substring-search-up

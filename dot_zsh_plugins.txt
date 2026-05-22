@@ -6,4 +6,5 @@ zsh-users/zsh-history-substring-search
 MichaelAquilina/zsh-you-should-use
 ohmyzsh/ohmyzsh path:plugins/common-aliases
 ohmyzsh/ohmyzsh path:plugins/tmux
+ohmyzsh/ohmyzsh path:plugins/mise
 z-shell/zsh-eza
