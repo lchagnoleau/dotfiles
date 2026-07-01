@@ -134,8 +134,10 @@
           pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
-          pkgs.gcc
+          pkgs.git-filter-repo
+          pkgs.dfu-util
           pkgs.kanata
+          pkgs.msitools
           pkgs.wl-clipboard
           pkgs.nerd-fonts.hack
           pkgs.zsh
