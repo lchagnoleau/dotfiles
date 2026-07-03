@@ -128,6 +128,7 @@
           pkgs.procs
           pkgs.grex
           {{- if eq .chezmoi.os "darwin" }}
+          pkgs.wireguard-tools
           pkgs.ghostty-bin
           pkgs.bitwarden-desktop
           pkgs.firefox
