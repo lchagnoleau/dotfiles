@@ -6,8 +6,10 @@ _.fnox-env = { tools = true }
 
 [tools]
 fnox = "latest"
-"github:xpack-dev-tools/arm-none-eabi-gcc-xpack" = "14.2.1-1.1"
 rust = "latest"
 terraform = "latest"
 usage = "latest"
 uv = "latest"
+"github:herdrdev/herdr" = "latest"
+"github:renode/renode" = { version = "latest", matching = "portable" }
+"github:xpack-dev-tools/arm-none-eabi-gcc-xpack" = "14.2.1-1.1"

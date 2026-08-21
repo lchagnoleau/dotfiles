@@ -3,13 +3,16 @@
 ## set search.filters to include "workspace" before other filter modes.
 workspaces = true
 
+keymap_mode = "vim-normal"
+enter_accept = true
+
 [tmux]
 ## Enable using atuin with tmux popup (requires tmux >= 3.2)
 ## When enabled and running inside tmux, Atuin will use a popup window for interactive search.
 ## Set to false to disable the popup.
 ## This can also be controlled with the ATUIN_TMUX_POPUP environment variable.
 ## Note: The tmux popup is currently supported in zsh, bash, and fish shells. This currently doesn't work with iTerm native tmux integration.
-enabled = true
+# enabled = true
 
 ## Width of the tmux popup window
 ## Can be a percentage, or integer (e.g. "100" means 100 characters wide)
@@ -23,6 +26,9 @@ enabled = true
 name = "tokyo-night"
 
 [ui]
+
+[ai]
+enabled = true
 ## Columns to display in the interactive search, from left to right.
 ## The selection indicator (" > ") is always shown first implicitly.
 ##

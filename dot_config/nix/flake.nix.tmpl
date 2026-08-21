@@ -136,6 +136,7 @@
           pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
+          pkgs.picocom
           pkgs.git-filter-repo
           pkgs.dfu-util
           pkgs.kanata
