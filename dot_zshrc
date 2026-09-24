@@ -14,6 +14,7 @@ fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 # ── Key Bindings ──────────────────────────────────────────────────────────────
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+bindkey '^F' clear-screen
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=red"
 
 # ── Aliases ───────────────────────────────────────────────────────────────────

@@ -65,7 +65,7 @@
       };
     {{- end }}
 
-    configuration = { pkgs, lib, ... }:
+    configuration = { pkgs, lib, config, ... }:
     {{- if eq .chezmoi.os "linux" }}
     let
       gdbWithSvd = mkGdbWithSvd pkgs;
@@ -79,7 +79,34 @@
       home.username = "{{ .chezmoi.username }}";
       home.homeDirectory = "{{ .chezmoi.homeDir }}";
       home.stateVersion = "25.11";
+   
+      # --- NixGL Setup ---
+      # Fix: The option moved to targets.genericLinux.nixGL
+      targets.genericLinux.nixGL = {
+        # Fix: using stdenv.hostPlatform.system instead of the deprecated stdenv.system
+        packages = nixgl.packages.${pkgs.stdenv.hostPlatform.system};
+        defaultWrapper = "mesa"; # Change to "nvidia" if using proprietary Nvidia drivers
+      };
+
+      # --- Hyprland Setup ---
+      wayland.windowManager.hyprland = {
+        enable = true;
+        configType = "hyprlang"; 
+ 
+        settings = {
+          monitor = [
+            ",preferred,auto,auto"
+          ];
+
+          "$mod" = "SUPER";
+          bind = [
+            "$mod, Q, exec, ghostty"
+            "$mod, M, exit,"
+          ];
+        };
+      };
       {{- end }}
+
       nixpkgs.config.allowUnfree = true;
       {{- if eq .chezmoi.os "darwin" }}
       environment.systemPackages =
@@ -136,6 +163,7 @@
           pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
+          pkgs.ghostty
           pkgs.picocom
           pkgs.git-filter-repo
           pkgs.dfu-util
@@ -145,6 +173,9 @@
           pkgs.nerd-fonts.hack
           pkgs.zsh
           gdbWithSvd  # gdb wrapped with cmsis-svd Python module
+
+          # Provide the nixGL command line tool for manually launching apps
+          pkgs.nixgl.auto.nixGLDefault 
           {{- end }}
         ];
 
@@ -329,6 +360,7 @@
         localSystem = "{{ $arch }}-{{ .chezmoi.os }}";
         overlays = [ nixgl.overlay ];
       };
+
       modules = [ configuration ];
     };
     {{- end }}

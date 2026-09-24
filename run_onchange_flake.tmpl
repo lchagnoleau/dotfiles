@@ -4,5 +4,5 @@
 {{ if eq .chezmoi.os "darwin" -}}
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#{{ .chezmoi.hostname }}
 {{ else if eq .chezmoi.os "linux" -}}
-nix run home-manager/master -- switch --flake ~/.config/nix#{{ .chezmoi.hostname }}
+nix run home-manager/master -- switch --flake ~/.config/nix#{{ .chezmoi.hostname }} --impure
 {{ end -}}
