@@ -72,6 +72,7 @@
     in
     {{- end }}
     {
+      nixpkgs.config.segger-jlink.acceptLicense = true;
       {{- if eq .chezmoi.os "darwin" }}
       system.primaryUser = "{{ .chezmoi.username }}";
       {{- else if eq .chezmoi.os "linux" }}
