@@ -31,3 +31,8 @@ type = "git-repo"
 url = "https://github.com/lchagnoleau/gdb-dashboard-svd"
 clone.args = ["-b", "svd_load_from_folder_autocomplete"]
 refreshPeriod = "168h"
+
+["wp/work/cmsis-svd"]
+type = "git-repo"
+url = "https://github.com/cmsis-svd/cmsis-svd-data"
+refreshPeriod = "168h"

@@ -46,6 +46,10 @@ eval "$(zoxide init zsh)"
 # ── Mise ──────────────────────────────────────────────────────────────────────
 eval "$(mise activate zsh)"
 
+# ── Pixi ──────────────────────────────────────────────────────────────────────
+eval "$(pixi completion --shell zsh)"
+export PATH="$HOME/.pixi/bin:$PATH"
+
 # ── Fnox ──────────────────────────────────────────────────────────────────────
 eval "$(fnox activate zsh)"
 

@@ -74,7 +74,6 @@
     {
       {{- if eq .chezmoi.os "darwin" }}
       system.primaryUser = "{{ .chezmoi.username }}";
-      nixpkgs.config.segger-jlink.acceptLicense = true;
       {{- else if eq .chezmoi.os "linux" }}
       home.username = "{{ .chezmoi.username }}";
       home.homeDirectory = "{{ .chezmoi.homeDir }}";
@@ -131,16 +130,18 @@
           pkgs.procs
           pkgs.grex
           pkgs.pixi
+          pkgs.tio
+          pkgs.segger-jlink
           {{- if eq .chezmoi.os "darwin" }}
           pkgs.aerospace
           pkgs.wireguard-tools
           pkgs.ghostty-bin
           pkgs.bitwarden-desktop
           pkgs.firefox
-          pkgs.segger-jlink
           pkgs.mas
           {{- else if eq .chezmoi.os "linux" }}
           pkgs.picocom
+          pkgs.google-cloud-sdk
           pkgs.git-filter-repo
           pkgs.dfu-util
           pkgs.kanata
