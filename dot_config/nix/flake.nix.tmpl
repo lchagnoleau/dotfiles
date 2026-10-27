@@ -89,6 +89,12 @@
       home.packages =
       {{- end }}
         [ pkgs.neovim
+          pkgs.nodejs
+          pkgs.glab
+          pkgs.gitlogue
+          pkgs.worktrunk
+          pkgs.kondo
+          pkgs.google-cloud-sdk
           pkgs.lazyjj
           pkgs.usbutils
           pkgs.binwalk
@@ -133,8 +139,9 @@
           pkgs.pixi
           pkgs.tio
           pkgs.segger-jlink
+          pkgs.picocom
           {{- if eq .chezmoi.os "darwin" }}
-          pkgs.aerospace
+          pkgs.container
           pkgs.wireguard-tools
           pkgs.ghostty-bin
           pkgs.bitwarden-desktop
@@ -176,7 +183,6 @@
             "gdb"
             "mole"
           ];
-        onActivation.cleanup = "zap";
         onActivation.autoUpdate = true;
         onActivation.upgrade = true;
         };
@@ -333,7 +339,6 @@
         {{- if eq $arch "arm64" }}{{- $arch = "aarch64" -}}
         {{- else if eq $arch "amd64" }}{{- $arch = "x86_64" -}}{{ end -}}
         localSystem = "{{ $arch }}-{{ .chezmoi.os }}";
-        
         # NixGL overlay to provide access to auto-wrapped graphics utilities
         overlays = [ nixgl.overlay ];
       };
