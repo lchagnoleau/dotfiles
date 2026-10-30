@@ -1,3 +1,7 @@
+{{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" -}}
 [data]
-    email_pro = "{{ promptString "Work email address" }}"
-    font_size = "{{ promptString "Font size for Ghostty" }}"
+    isWork = {{ $isWork }}
+{{- if $isWork }}
+    email_pro = {{ promptStringOnce . "email_pro" "Work email address" | quote }}
+{{- end }}
+    font_size = {{ promptStringOnce . "font_size" "Font size for Ghostty" | quote }}

@@ -1,0 +1,7 @@
+#!/bin/bash
+# Re-run when any Nix file changes:
+{{- range (glob (joinPath .chezmoi.sourceDir "dot_config/nix/*")) }}
+# {{ base . }}: {{ include . | sha256sum }}
+{{- end }}
+
+exec "$HOME/.local/bin/nix-switch"

@@ -1,0 +1,14 @@
+#!/bin/bash
+# Update all flake inputs to their latest version and switch to the new configuration.
+set -euo pipefail
+
+flake="$HOME/.config/nix"
+host="$(nix eval --raw --file "$flake/host.nix" hostname)"
+
+nix flake update --flake "$flake"
+
+case "$(uname -s)" in
+  # The lock was just updated as the user; never let root rewrite (and own) it
+  Darwin) sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake "$flake#$host" --no-update-lock-file ;;
+  Linux)  nix run home-manager/master -- switch --flake "$flake#$host" --impure ;;
+esac

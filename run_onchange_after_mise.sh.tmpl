@@ -1,0 +1,6 @@
+#!/bin/bash
+# mise config hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+
+# mise is installed by Nix and may not be in PATH yet on first bootstrap
+command -v mise >/dev/null || exit 0
+mise install

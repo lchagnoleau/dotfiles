@@ -28,15 +28,19 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply lchagnoleau
 # In a new shell:
 echo $(which zsh) | sudo tee -a /etc/shells
 chsh -s $(which zsh)
-podman machine init
-podman machine start
 ```
 
 
-## Ugrade Nix packages
+## Upgrade everything
+
+Everything tracks the latest versions. To pull the dotfiles and upgrade Nix
+packages, Homebrew, mise tools, zsh plugins and tmux plugins:
 
 ```bash
-#update packages
-nix flake update
-sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/.config/nix#BigMac
+dotup
 ```
+
+To only update and rebuild the Nix configuration: `nix-switch`.
+
+The Nix configuration is also rebuilt automatically by `chezmoi apply` whenever
+a file in `dot_config/nix/` changes.

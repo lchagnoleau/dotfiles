@@ -7,13 +7,13 @@ bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "wl-copy"
 bind -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "wl-copy"
 {{- end }}
 
-# Colors setuo
+# Colors setup
 set -g default-terminal "screen-256color"
-set -ag terminal-overrides ",xterm-256color:RGB"
+set -as terminal-features ",xterm-ghostty:RGB,xterm-256color:RGB"
 setw -g xterm-keys on
 
 # Options
-set -g history-limit 5000
+set -g history-limit 50000
 set -g base-index 1           # start windows numbering at 1
 setw -g pane-base-index 1     # make pane numbering consistent with windows
 setw -g automatic-rename on   # rename window to reflect current program

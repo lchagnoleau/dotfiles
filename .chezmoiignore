@@ -1,1 +1,10 @@
 README.md
+
+{{ if ne .chezmoi.os "linux" }}
+.config/kanata
+.config/systemd
+{{ end }}
+
+{{ if not .isWork }}
+wp/work
+{{ end }}

@@ -5,17 +5,36 @@ setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_reduce_blanks
 
+# ── Path ──────────────────────────────────────────────────────────────────────
+typeset -U path
+path=("$HOME/.local/bin" "$HOME/.pixi/bin" $path)
+
 # ── Plugin Manager (antidote) ──────────────────────────────────────────────────
 zstyle ':plugin:ez-compinit' 'compstyle' 'zshzoo'
 source $HOME/.antidote/antidote.zsh
 antidote load
 fpath=("$ZSH_CACHE_DIR/completions" $fpath)
 
+# ── Cached init scripts ───────────────────────────────────────────────────────
+# Write the output of `<tool> <args>` to <file>. It is regenerated when the
+# tool's resolved binary path changes (Nix and mise upgrades install to a new
+# path) or the binary is newer than the cache.
+_cache_output() {
+  local file=$1 bin=${commands[$2]:A}
+  [[ -n $bin ]] || return 1
+  local key="$bin ${*[3,-1]}" stamp
+  [[ -s $file && -f $file.key ]] && read -r stamp < $file.key
+  if [[ $stamp != $key || $bin -nt $file ]]; then
+    mkdir -p ${file:h}
+    $bin "${@[3,-1]}" > $file && print -r -- $key > $file.key
+  fi
+}
+_cached_eval() { _cache_output $ZSH_CACHE_DIR/init/$1.zsh "$@" && source $ZSH_CACHE_DIR/init/$1.zsh }
+# Installed in fpath, so it is only loaded on first completion
+_cached_completion() { _cache_output $ZSH_CACHE_DIR/completions/_$1 "$@" }
+
 # ── Key Bindings ──────────────────────────────────────────────────────────────
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
 bindkey '^F' clear-screen
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=red"
 
 # ── Aliases ───────────────────────────────────────────────────────────────────
 export eza_params=(--icons --group --group-directories-first --time-style=long-iso)
@@ -23,43 +42,56 @@ export eza_params=(--icons --group --group-directories-first --time-style=long-i
 alias l='eza --all --header --long $eza_params'
 alias v='nvim'
 alias g='git'
-alias nproc='sysctl -n hw.physicalcpu'
 alias cd='z'
-alias rpodman='podman run -it --rm --arch x86_64 -v $PWD:$PWD -v $HOME/.ssh:/root/.ssh -w $PWD'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias rpodman='podman run -it --rm --arch x86_64 -v $PWD:$PWD -v $HOME/.ssh:/root/.ssh:ro -w $PWD'
+[[ $OSTYPE == darwin* ]] && alias nproc='sysctl -n hw.physicalcpu'
+
+# Pull dotfiles and upgrade everything to its latest version
+dotup() {
+  chezmoi update --refresh-externals &&
+  nix-switch &&
+  mise upgrade &&
+  antidote update --bundles &&
+  ~/.tmux/plugins/tpm/bin/update_plugins all
+}
 
 # ── FZF ───────────────────────────────────────────────────────────────────────
-source <(fzf --zsh)
+_cached_eval fzf --zsh
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # ── Prompt ────────────────────────────────────────────────────────────────────
-eval "$(starship init zsh)"
+_cached_eval starship init zsh
 
 # ── Zoxide ────────────────────────────────────────────────────────────────────
-eval "$(zoxide init zsh)"
+_cached_eval zoxide init zsh
 
 # ── Mise ──────────────────────────────────────────────────────────────────────
-eval "$(mise activate zsh)"
+_cached_eval mise activate zsh
 
 # ── Pixi ──────────────────────────────────────────────────────────────────────
-eval "$(pixi completion --shell zsh)"
-export PATH="$HOME/.pixi/bin:$PATH"
+_cached_completion pixi completion --shell zsh
 
 # ── Fnox ──────────────────────────────────────────────────────────────────────
-eval "$(fnox activate zsh)"
+_cached_eval fnox activate zsh
 
 # ── Jujutsu (jj) completion ───────────────────────────────────────────────────
-source <(COMPLETE=zsh jj)
+COMPLETE=zsh _cached_eval jj
 
 # ── pay-respects ──────────────────────────────────────────────────────────────
-eval "$(pay-respects zsh --alias)"
+_cached_eval pay-respects zsh --alias
 
-# ── atuin ─────────────────────────────────────────────────────────────────────
-eval "$(atuin init zsh)"
+# ── atuin (owns Ctrl-R and the up arrow) ──────────────────────────────────────
+_cached_eval atuin init zsh
 
-if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+# ── worktrunk ─────────────────────────────────────────────────────────────────
+_cached_eval wt config shell init zsh
