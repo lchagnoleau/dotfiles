@@ -1,0 +1,13 @@
+[theme]
+name = "carbonfox"
+parent = "default"
+
+[colors]
+AlertInfo = "#25be6a"
+AlertWarn = "#08bdba"
+AlertError = "#ee5396"
+Annotation = "#535353"
+Base = "#b6b8bb"
+Guidance = "#3ddbd9"
+Important = "#78a9ff"
+Title = "#be95ff"

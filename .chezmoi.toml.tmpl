@@ -1,6 +1,8 @@
 {{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" -}}
+{{- $theme := promptChoiceOnce . "theme" "Color theme" (list "tokyonight" "carbonfox") -}}
 [data]
     isWork = {{ $isWork }}
+    theme = {{ $theme | quote }}
 {{- if $isWork }}
     email_pro = {{ promptStringOnce . "email_pro" "Work email address" | quote }}
 {{- end }}

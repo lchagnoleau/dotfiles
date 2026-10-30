@@ -1,0 +1,117 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+palette = "{{ .theme }}"
+
+format = """
+[░▒▓](os_bg)\
+[ $os ](bg:os_bg fg:os_fg)\
+[](bg:dir_bg fg:os_bg)\
+$directory\
+[](fg:dir_bg bg:git_bg)\
+$git_branch\
+$git_status\
+[](fg:git_bg bg:mise_bg)\
+$mise\
+$python\
+[](fg:mise_bg bg:time_bg)\
+$time\
+[ ](fg:time_bg)\
+\n$character"""
+
+[os]
+disabled = false
+style = "bg:os_bg fg:os_fg"
+
+[os.symbols]
+Windows = "󰍲"
+Ubuntu = "󰕈"
+SUSE = ""
+Raspbian = "󰐿"
+Mint = "󰣭"
+Macos = "󰀵"
+Manjaro = ""
+Linux = "󰌽"
+Gentoo = "󰣨"
+Fedora = "󰣛"
+Alpine = ""
+Amazon = ""
+Android = ""
+AOSC = ""
+Arch = "󰣇"
+Artix = "󰣇"
+EndeavourOS = ""
+CentOS = ""
+Debian = "󰣚"
+Redhat = "󱄛"
+RedHatEnterprise = "󱄛"
+Pop = ""
+
+[mise]
+disabled = false
+symbol = "󱁤 "
+style = "bg:mise_bg"
+format = '[[ $symbol$health ](fg:mise_fg bg:mise_bg)]($style)'
+healthy_symbol = 'ready'
+
+[python]
+symbol = " "
+format = '[(\($symbol$virtualenv\))]($style)'
+
+[directory]
+style = "fg:dir_fg bg:dir_bg"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "bg:git_bg"
+format = '[[ $symbol $branch](fg:git_fg bg:git_bg)]($style)'
+
+[git_status]
+style = "bg:git_bg"
+format = '[[($all_status$ahead_behind )](fg:git_fg bg:git_bg)]($style)'
+conflicted = '[ ~$count](bold git_error bg:git_bg)'
+stashed = '[ *$count](bold git_warn bg:git_bg)'
+staged = '[ +$count](bold git_warn bg:git_bg)'
+modified = '[ !$count](bold git_warn bg:git_bg)'
+deleted = '[ -$count](bold git_warn bg:git_bg)'
+untracked = '[ ?$count](bold git_warn bg:git_bg)'
+ahead = '[ ⇡$count](bold git_warn bg:git_bg)'
+behind = '[ ⇣$count](bold git_warn bg:git_bg)'
+diverged = '[ ⇡$ahead_count](bold git_warn bg:git_bg)[⇣$behind_count](bold git_warn bg:git_bg)'
+
+[time]
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:time_bg"
+format = '[[  $time ](fg:time_fg bg:time_bg)]($style)'
+
+[palettes.tokyonight]
+os_bg = "#a3aed2"
+os_fg = "#090c0c"
+dir_bg = "#769ff0"
+dir_fg = "#e3e5e5"
+git_bg = "#394260"
+git_fg = "#769ff0"
+git_warn = "yellow"
+git_error = "red"
+mise_bg = "#212736"
+mise_fg = "#769ff0"
+time_bg = "#1d2230"
+time_fg = "#a0a9cb"
+
+# From nightfox.nvim extra/carbonfox/starship.toml
+[palettes.carbonfox]
+os_bg = "#7b7c7e"
+os_fg = "#0c0c0c"
+dir_bg = "#25be6a"
+dir_fg = "#161616"
+git_bg = "#08bdba"
+git_fg = "#252525"
+git_warn = "#252525"
+git_error = "#252525"
+mise_bg = "#78a9ff"
+mise_fg = "#353535"
+time_bg = "#2a2a2a"
+time_fg = "#b6b8bb"

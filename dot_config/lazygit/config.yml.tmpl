@@ -1,0 +1,37 @@
+{{- $c := dict "accent" "#ff9e64" "inactive" "#29a4bd" "blue" "#7aa2f7" "sel" "#2e3c64" "magenta" "#bb9af7" "yellow" "#e0af68" "red" "#db4b4b" "fg" "#c0caf5" }}
+{{- if eq .theme "carbonfox" }}
+{{- $c = dict "accent" "#3ddbd9" "inactive" "#535353" "blue" "#78a9ff" "sel" "#2a2a2a" "magenta" "#be95ff" "yellow" "#08bdba" "red" "#ee5396" "fg" "#f2f4f8" }}
+{{- end }}
+gui:
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor:
+      - "{{ $c.accent }}"
+      - "bold"
+    inactiveBorderColor:
+      - "{{ $c.inactive }}"
+    searchingActiveBorderColor:
+      - "{{ $c.accent }}"
+      - "bold"
+    optionsTextColor:
+      - "{{ $c.blue }}"
+    selectedLineBgColor:
+      - "{{ $c.sel }}"
+    cherryPickedCommitFgColor:
+      - "{{ $c.blue }}"
+    cherryPickedCommitBgColor:
+      - "{{ $c.magenta }}"
+    markedBaseCommitFgColor:
+      - "{{ $c.blue }}"
+    markedBaseCommitBgColor:
+      - "{{ $c.yellow }}"
+    unstagedChangesColor:
+      - "{{ $c.red }}"
+    defaultFgColor:
+      - "{{ $c.fg }}"
+
+# Keybindings
+keybinding:
+  commits:
+    moveDownCommit: J
+    moveUpCommit: K

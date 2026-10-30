@@ -3,6 +3,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export EZA_CONFIG_DIR="$HOME/.config/eza"
 export EDITOR="nvim"
 export FNOX_SHELL_OUTPUT=none
+export DOTFILES_THEME={{ .theme }}
 export SSH_AUTH_SOCK={{ .chezmoi.homeDir }}/.bitwarden-ssh-agent.sock
 {{- if .isWork }}
 export SVD_FOLDER="$HOME/wp/work/cmsis-svd/data/"
