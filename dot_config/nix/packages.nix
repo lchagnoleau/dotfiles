@@ -1,6 +1,7 @@
 # Packages installed on every machine.
 pkgs: [
   (import ./gdb-svd.nix pkgs)
+  pkgs.fastfetch
   pkgs.neovim
   pkgs.nodejs
   pkgs.glab
