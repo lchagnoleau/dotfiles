@@ -1,9 +1,17 @@
-{{- $isWork := promptBoolOnce . "isWork" "Is this a work machine" -}}
-{{- $theme := promptChoiceOnce . "theme" "Color theme" (list "tokyonight" "carbonfox") -}}
+encryption = "age"
+[age]
+    identity = "~/.config/fnox/age.txt"
+
+[hooks.read-source-state.pre]
+    command = ".local/share/chezmoi/.bootstrap-key.sh"
+
+{{ $isWork := promptBoolOnce . "isWork" "Is this a work machine" }}
+{{ $theme := promptChoiceOnce . "theme" "Color theme" (list "tokyonight" "carbonfox") }}
+
 [data]
     isWork = {{ $isWork }}
     theme = {{ $theme | quote }}
-{{- if $isWork }}
+{{ if $isWork }}
     email_pro = {{ promptStringOnce . "email_pro" "Work email address" | quote }}
-{{- end }}
+{{ end }}
     font_size = {{ promptStringOnce . "font_size" "Font size for Ghostty" | quote }}
