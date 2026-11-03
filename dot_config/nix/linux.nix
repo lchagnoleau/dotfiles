@@ -13,6 +13,7 @@
     pkgs.wl-clipboard
     pkgs.nerd-fonts.hack
     pkgs.zsh
+    pkgs.nixgl.auto.nixGLDefault
   ];
 
   fonts.fontconfig.enable = true;
