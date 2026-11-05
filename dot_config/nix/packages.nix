@@ -51,6 +51,5 @@ pkgs: [
   pkgs.grex
   pkgs.pixi
   pkgs.tio
-  pkgs.segger-jlink
   pkgs.picocom
 ]

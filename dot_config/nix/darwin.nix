@@ -10,6 +10,7 @@
     pkgs.bitwarden-desktop
     pkgs.firefox
     pkgs.mas
+    pkgs.segger-jlink
   ];
 
   fonts.packages = [ pkgs.nerd-fonts.hack ];

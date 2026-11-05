@@ -21,9 +21,6 @@
     host = import ./host.nix;
     nixpkgsConfig = {
       allowUnfree = true;
-      segger-jlink.acceptLicense = true;
-      # segger-jlink pulls in an old Qt marked insecure on Linux
-      allowInsecurePredicate = pkg: nixpkgs.lib.getName pkg == "segger-jlink-qt4";
     };
   in
   {
