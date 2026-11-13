@@ -21,6 +21,7 @@
     host = import ./host.nix;
     nixpkgsConfig = {
       allowUnfree = true;
+      segger-jlink.acceptLicense = true;
     };
   in
   {
